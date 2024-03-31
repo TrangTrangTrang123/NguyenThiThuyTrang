@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Nhận xét Sản phẩm</title>
+<style>
+    /* CSS cho giao diện */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"],
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .form-group textarea {
+        height: 150px;
+    }
+
+    .btn-submit {
+        display: inline-block;
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-submit:hover {
+        background-color: #45a049;
+    }
+
+    .review-history {
+        margin-top: 30px;
+    }
+
+    .review-item {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-left: 4px solid #4caf50;
+        border-radius: 5px;
+    }
+
+    .review-item p {
+        margin: 5px 0;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Form Nhận xét Sản phẩm</h2>
+
+    <div class="form-group">
+        <label for="customerName">Tên khách hàng:</label>
+        <input type="text" id="customerName" placeholder="Nhập tên của bạn...">
+    </div>
+
+    <div class="form-group">
+        <label for="review">Nhận xét:</label>
+        <textarea id="review" placeholder="Viết nhận xét của bạn..."></textarea>
+    </div>
+
+    <button class="btn-submit" onclick="submitReview()">Gửi nhận xét</button>
+
+    <!-- Hiển thị lịch sử đánh giá -->
+    <div class="review-history">
+        <h3>Lịch sử nhận xét</h3>
+        <div id="reviewList"></div>
+    </div>
+</div>
+
+<script>
+    // Mảng lưu trữ lịch sử nhận xét
+    var reviews = [];
+
+    function submitReview() {
+        var customerName = document.getElementById('customerName').value;
+        var reviewText = document.getElementById('review').value;
+
+        if (!customerName || !reviewText) {
+            alert("Vui lòng điền đầy đủ thông tin và nhận xét!");
+            return;
+        }
+
+        var review = {
+            customer: customerName,
+            text: reviewText,
+            date: new Date().toLocaleString()
+        };
+
+        // Thêm nhận xét vào mảng lịch sử nhận xét
+        reviews.push(review);
+
+        // Cập nhật hiển thị lịch sử nhận xét
+        displayReviews();
+
+        // Xóa nội dung nhận xét trong form
+        document.getElementById('customerName').value = '';
+        document.getElementById('review').value = '';
+    }
+
+    function displayReviews() {
+        var reviewList = document.getElementById('reviewList');
+        reviewList.innerHTML = '';
+
+        reviews.forEach(function(review, index) {
+            var reviewItem = document.createElement('div');
+            reviewItem.classList.add('review-item');
+            reviewItem.innerHTML = '<p><strong>@</strong> ' + review.customer + '</p>' +
+                                    '<p><strong></strong> ' + review.text + '</p>' +
+                                    '<p><strong></strong> ' + review.date + '</p><hr>';
+            reviewList.appendChild(reviewItem);
+        });
+    }
+</script>
+
+</body>
+</html>
